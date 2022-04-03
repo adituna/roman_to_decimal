@@ -1,0 +1,44 @@
+def roman_to_decimal(roman_num):
+    """
+    @roman_num is a string roman number example 'MCDXVII'
+    """
+    roman_numbers = {'I':1, 'V':5, 'X':10, 'L':50,
+    'C':100, 'D':500, 'M':1000}
+    
+    to_convert = roman_num
+
+    decimal_list = []
+    solution = 0 
+
+    i = 0
+    previous = 0
+    try:
+        for element in to_convert:
+            decimal_list.append(roman_numbers[element])
+
+        how_long = len(decimal_list)
+
+        # jeśli aktualny element jest większy od następnego z kolei to dodaj do solution
+        for element in range(how_long - 1,):
+            if decimal_list[element] >= decimal_list[element + 1] and decimal_list[element] != 0:
+                solution += decimal_list[element]
+        # jeśli aktualny element jest mniejszy od następnego to odejmij jego wartość od następnego i dodaj do solution
+        # wartość następnego elementu zmienia się na 0 
+            elif decimal_list[element] < decimal_list[element + 1] and decimal_list[element] != 0:
+                new_element = decimal_list[element + 1] - decimal_list[element]
+                solution += new_element
+                decimal_list[element + 1] = 0
+            else:
+                continue
+
+        # dodanie ostatniego elementu listy 
+        if decimal_list[how_long-1] <= 5 or (decimal_list[how_long-1] >= 10 and decimal_list[how_long-1] <= 20) or (decimal_list[how_long-1] > 50 and decimal_list[how_long-1] < 1000):
+            solution += decimal_list[how_long-1]
+        return solution
+    except KeyError:
+        print('Your data is incorret')
+        
+user_input = input('Type roman number >>> :').upper()
+
+print(roman_to_decimal(user_input))
+input('Press enter to quit >>>')
